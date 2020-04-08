@@ -1,11 +1,10 @@
-from django.shortcuts import render, get_object_or_404
-from rest_framework.exceptions import PermissionDenied
-
-from .serializer import *
-from .forms import *
-from rest_framework import viewsets
-from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render
+from rest_framework import viewsets
+
+from .forms import *
+from .serializer import *
 
 
 # Create your views here.
@@ -67,6 +66,9 @@ def get_employee_record(request):
 
 
 def delete_employee_record(request):
+    if request.method.POST:
+        emp_no = request.POST.get("emp_no", None)
+        print(emp_no)
     return render(request, 'deleterecord.html', {})
 
 
