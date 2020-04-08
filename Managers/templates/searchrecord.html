@@ -1,7 +1,8 @@
 {% extends 'base.html' %} {% block content %}
 <h3>Search employee record</h3>
 <br />
-<form action="." method="POST">
+
+<form name="emp-search" action="." method="POST" onchange="required()">
   {% csrf_token %}
   <!-- <div class="container"> -->
   <!-- Employee Number {{ record.emp_no }} -->
@@ -11,33 +12,57 @@
     id="emp_no"
     name="emp_no"
     onclick="
+    document.getElementById('missing-emp-no').setAttribute('hidden', '');
     if(document.getElementById('edit-button') != undefined) {
-      getElementById('edit-button').style.display = 'none';
+      document.getElementById('edit-button').style.display = 'none';
     };
     if(document.getElementById('delete-button') != undefined) {
-      getElementById('delete-button').style.display = 'none';
+      document.getElementById('delete-button').style.display = 'none';
     };
     if(document.getElementById('employees-table-body') != undefined) {
-      getElementById('employees-table-body').style.display = 'none';
+      document.getElementById('employees-table-body').style.display = 'none';
     };"
   />
-  <input type="submit" value="Search" />
+  <input type="submit" value="Search" id="search-button" class="inline" />
+  <div class="alert alert-warning inline" id="missing-emp-no" hidden>
+    <strong>Warning !</strong> Employee number can not be alpha numeric.
+  </div>
   {% if record|length != 0 %}
-  <button type="submit" onclick="editrecord()" id="edit-button">Edit</button>
-  <button type="submit" onclick="deleterecord()" id="delete-button">
+  <button type="submit" onclick="editrecord()" id="edit-button" class="inline">
+    Edit
+  </button>
+  <button
+    type="submit"
+    onclick="deleterecord()"
+    id="delete-button"
+    class="inline"
+  >
     Delete
   </button>
   {% endif %}
   <!-- </div> -->
+  <script>
+    var inputelem = document.getElementById("emp_no");
+    function required() {
+      if (inputelem.value != "*") {
+        var value = parseInt(inputelem.value);
+        if (value != inputelem.value) {
+          document.getElementById("search-button").disabled = true;
+          document.getElementById("missing-emp-no").removeAttribute("hidden");
+        } else {
+          document.getElementById("search-button").disabled = false;
+          document.getElementById("missing-emp-no").setAttribute("hidden", "");
+        }
+      } else if (inputelem.value == "*") {
+        document.getElementById("search-button").disabled = false;
+        document.getElementById("missing-emp-no").setAttribute("hidden", "");
+      }
+    }
+  </script>
 </form>
 <br />
 <h3>Employee List</h3>
 <br />
-<script>
-  function editrecord() {
-    document.getElementById;
-  }
-</script>
 <!-- <button name="refreshdate" id="refreshdate">Refresh</button> -->
 <table class="table table-hover">
   <thead>
@@ -59,7 +84,7 @@
         <input
           type="radio"
           name="radio-button"
-          onchange="getElementById('radio-button').setAttribute('id', 'radio-button-selected'); getSelectedEmployee()"
+          onchange="document.getElementById('radio-button').setAttribute('id', 'radio-button-selected'); getSelectedEmployee()"
           id="radio-button"
         />
       </td>
@@ -69,12 +94,6 @@
           console.log(empRecord);
         }
       </script>
-      <!-- <th scope="row">{{ each_record.emp_no }}</th>
-            <td>{{ each_record.first_name|capfirst|upper }}</td>
-            <td>{{ each_record.last_name|upper }}</td>
-            <td>{{ each_record.gender }}</td>
-            <td>{{ each_record.birth_date }}</td>
-            <td>{{ each_record.hire_date }}</td> -->
       <th scope="row">{{ each_record.emp_no }}</th>
       <td>{{ each_record.first_name }}</td>
       <td>{{ each_record.last_name }}</td>
