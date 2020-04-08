@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>Search employee record</h3>
+<form action="." method="POST"> {% csrf_token %}
+    <div class="container">
+        Employee Number {{ record.emp_no }}
+        <input type="submit" value="Delete">
+    </div>
+</form>
+
+{% endblock %}

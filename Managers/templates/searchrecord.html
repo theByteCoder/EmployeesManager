@@ -1,0 +1,57 @@
+{% extends 'base.html' %} {% block content %}
+<h3>Search employee record</h3>
+<br />
+<form action="." method="POST">
+  {% csrf_token %}
+  <!-- <div class="container"> -->
+  <!-- Employee Number {{ record.emp_no }} -->
+  Employee Number <input type="text" id="emp_no" name="emp_no" />
+  <input type="submit" value="Search" />
+  <!-- </div> -->
+</form>
+<br />
+<h3>Employee List</h3>
+<br />
+<script>
+  function editrecord() {
+    document.getElementById;
+  }
+</script>
+<!-- <button name="refreshdate" id="refreshdate">Refresh</button> -->
+<table class="table table-hover">
+  <thead>
+    <!--    <h3>User - <h3>{{request.user}}</h3></h2>-->
+    <tr>
+      <th scope="col">action</th>
+      <th scope="col">emp_no</th>
+      <th scope="col">first_name</th>
+      <th scope="col">last_name</th>
+      <th scope="col">gender</th>
+      <th scope="col">birth_date</th>
+      <th scope="col">hire_date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for each_record in record %}
+    <tr id="{{" each_record.emp_no }}>
+      <td>
+        <button type="submit" onclick="editrecord()">Edit</button>
+        <button type="submit" onclick="deleterecord()">Delete</button>
+      </td>
+      <!-- <th scope="row">{{ each_record.emp_no }}</th>
+            <td>{{ each_record.first_name|capfirst|upper }}</td>
+            <td>{{ each_record.last_name|upper }}</td>
+            <td>{{ each_record.gender }}</td>
+            <td>{{ each_record.birth_date }}</td>
+            <td>{{ each_record.hire_date }}</td> -->
+      <th scope="row">{{ each_record.emp_no }}</th>
+      <td>{{ each_record.first_name }}</td>
+      <td>{{ each_record.last_name }}</td>
+      <td>{{ each_record.gender }}</td>
+      <td>{{ each_record.birth_date }}</td>
+      <td>{{ each_record.hire_date }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

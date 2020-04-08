@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Employee List</h1>
+<!-- <button name="refreshdate" id="refreshdate">Refresh</button> -->
+<table class="table table-hover">
+    <thead>
+<!--    <h3>User - <h3>{{request.user}}</h3></h2>-->
+    <tr>
+        <th scope="col">emp_no</th>
+        <th scope="col">first_name</th>
+        <th scope="col">last_name</th>
+        <th scope="col">gender</th>
+        <th scope="col">birth_date</th>
+        <th scope="col">hire_date</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for each_emp in all_emp %}
+    <tr>
+        <th scope="row">{{ each_emp.emp_no }}</th>
+        <td>{{ each_emp.first_name|capfirst|upper }}</td>
+        <td>{{ each_emp.last_name|upper }}</td>
+        <td>{{ each_emp.gender }}</td>
+        <td>{{ each_emp.birth_date }}</td>
+        <td>{{ each_emp.hire_date }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
