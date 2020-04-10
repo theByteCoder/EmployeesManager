@@ -65,11 +65,12 @@ def get_employee_record(request):
     return render(request, 'searchrecord.html', {'record': record})
 
 
-def delete_employee_record(request):
-    if request.method.POST:
-        emp_no = request.POST.get("emp_no", None)
+def delete_employee_record(request, emp_no):
+    if emp_no != "" and type(emp_no) is not None:
+        instance = Employees.objects.filter(emp_no=emp_no)
+        instance.delete()
         print(emp_no)
-    return render(request, 'deleterecord.html', {})
+    return render(request, 'deleterecord.html', {'emp_no': emp_no})
 
 
 def contact(request, *args, **kwargs):

@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="57c204db-e177-42d4-835d-efb8405359bb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EmployeesManager/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/EmployeesManager/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EmployeesManager/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/EmployeesManager/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmployeesManager/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/EmployeesManager/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Managers/templates/deleterecord.html" beforeDir="false" afterPath="$PROJECT_DIR$/Managers/templates/deleterecord.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Managers/templates/searchrecord.html" beforeDir="false" afterPath="$PROJECT_DIR$/Managers/templates/searchrecord.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Managers/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Managers/views.py" afterDir="false" />
     </list>
@@ -74,7 +74,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

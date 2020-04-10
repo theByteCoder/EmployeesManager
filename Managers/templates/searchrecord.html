@@ -2,7 +2,8 @@
 <h3>Search employee record</h3>
 <br />
 
-<form name="emp-search" action="." method="POST" onchange="required()">
+<!-- <form name="emp-search" action="." method="POST" onchange="required()"> -->
+<form name="emp-search" action="." onchange="required()">
   {% csrf_token %}
   <!-- <div class="container"> -->
   <!-- Employee Number {{ record.emp_no }} -->
@@ -12,7 +13,6 @@
     id="emp_no"
     name="emp_no"
     onclick="
-    document.getElementById('missing-emp-no').setAttribute('hidden', '');
     if(document.getElementById('edit-button') != undefined) {
       document.getElementById('edit-button').style.display = 'none';
     };
@@ -23,28 +23,71 @@
       document.getElementById('employees-table-body').style.display = 'none';
     };"
   />
-  <input type="submit" value="Search" id="search-button" class="inline" />
+  <input
+    type="submit"
+    formmethod="post"
+    value="Search"
+    id="search-button"
+    class="inline"
+    disabled="true"
+  />
   <div class="alert alert-warning inline" id="missing-emp-no" hidden>
     <strong>Warning !</strong> Employee number can not be alpha numeric.
   </div>
+  <div class="alert alert-success inline" hidden>
+    <strong>Success!</strong>
+  </div>
   {% if record|length != 0 %}
-  <button type="submit" onclick="editrecord()" id="edit-button" class="inline">
+  <button
+    onclick="editRecord()"
+    type="button"
+    id="edit-button"
+    class="inline"
+    hidden
+  >
     Edit
   </button>
   <button
-    type="submit"
-    onclick="deleterecord()"
+    onclick="window.location.href = '/api/deleteEmployee/emp_no=' + getSelectedEmployee()"
+    type="button"
     id="delete-button"
     class="inline"
+    hidden
   >
     Delete
   </button>
   {% endif %}
   <!-- </div> -->
   <script>
+    // get selected row
+    function getSelectedRow() {
+      var table = document.getElementById("table");
+      // var getTBody = table.getElementsByTagName("tbody")[0];
+      var row_Index = $("input[name=radio-button]:checked")[0];
+      var columnElem = row_Index.parentElement;
+      var rowEleme = columnElem.parentElement;
+      return rowEleme;
+    }
+
+    // get selected employee id
+    function getSelectedEmployee() {
+      var emp_no = getSelectedRow().getAttributeNames()[0];
+      return emp_no;
+    }
+
+    // returns url's hostname and port
+    function getHostName() {
+      var hostname = location.host;
+      return hostname;
+    }
+
+    // checks for employee search textbox validations
     var inputelem = document.getElementById("emp_no");
     function required() {
-      if (inputelem.value != "*") {
+      if (inputelem.value == "*") {
+        document.getElementById("search-button").disabled = false;
+        document.getElementById("missing-emp-no").setAttribute("hidden", "");
+      } else if (inputelem.value != "") {
         var value = parseInt(inputelem.value);
         if (value != inputelem.value) {
           document.getElementById("search-button").disabled = true;
@@ -53,9 +96,24 @@
           document.getElementById("search-button").disabled = false;
           document.getElementById("missing-emp-no").setAttribute("hidden", "");
         }
-      } else if (inputelem.value == "*") {
-        document.getElementById("search-button").disabled = false;
+      } else {
+        document.getElementById("search-button").disabled = true;
         document.getElementById("missing-emp-no").setAttribute("hidden", "");
+      }
+    }
+
+    // makes selected row's fields editable
+    function editRecord() {
+      var selected_row = getSelectedRow();
+      var emp_no = getSelectedEmployee();
+      var cells = selected_row.getElementsByTagName("td");
+      for (var x = 1; x < cells.length; x++) {
+        var each_cell = cells[x];
+        var para = each_cell.getElementsByTagName("p");
+        for (var y = 0; y < para.length; y++) {
+          var input = para[y].getElementsByTagName("input");
+          input[0].removeAttribute("hidden");
+        }
       }
     }
   </script>
@@ -64,7 +122,7 @@
 <h3>Employee List</h3>
 <br />
 <!-- <button name="refreshdate" id="refreshdate">Refresh</button> -->
-<table class="table table-hover">
+<table class="table table-hover" id="table">
   <thead>
     <!--    <h3>User - <h3>{{request.user}}</h3></h2>-->
     <tr>
@@ -84,22 +142,37 @@
         <input
           type="radio"
           name="radio-button"
-          onchange="document.getElementById('radio-button').setAttribute('id', 'radio-button-selected'); getSelectedEmployee()"
+          onchange="getSelectedRow().setAttribute('id',
+        'row-button-selected');
+        document.getElementById('search-button').disabled = false;
+        document.getElementById('delete-button').removeAttribute('hidden');
+        document.getElementById('edit-button').removeAttribute('hidden');
+        document .getElementById('emp_no').setAttribute('value',
+        getSelectedEmployee());"
           id="radio-button"
         />
       </td>
-      <script>
-        function getSelectedEmployee() {
-          var empRecord = document.getElementById("radio-button-selected");
-          console.log(empRecord);
-        }
-      </script>
       <th scope="row">{{ each_record.emp_no }}</th>
-      <td>{{ each_record.first_name }}</td>
-      <td>{{ each_record.last_name }}</td>
-      <td>{{ each_record.gender }}</td>
-      <td>{{ each_record.birth_date }}</td>
-      <td>{{ each_record.hire_date }}</td>
+      <td>
+        {{ each_record.first_name }}
+        <p><input type="text" id="first_name" hidden /></p>
+      </td>
+      <td>
+        {{ each_record.last_name }}
+        <p><input type="text" id="last_name" hidden /></p>
+      </td>
+      <td>
+        {{ each_record.gender }}
+        <p><input type="text" id="gender" hidden /></p>
+      </td>
+      <td>
+        {{ each_record.birth_date }}
+        <p><input type="text" id="birth_date" hidden /></p>
+      </td>
+      <td>
+        {{ each_record.hire_date }}
+        <p><input type="text" id="hire_date" hidden /></p>
+      </td>
     </tr>
     {% endfor %}
   </tbody>
