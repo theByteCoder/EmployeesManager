@@ -8,6 +8,13 @@ from .serializer import *
 
 
 # Create your views here.
+def get_last_employee_number():
+    all_emp = Employees.objects.all().values()
+    all_emp_list = list(all_emp)
+    last_emp_record = all_emp_list[len(all_emp_list) - 1]
+    return last_emp_record["emp_no"]
+
+
 def all_employees(request, username, password):
     user = authenticate(username=username, password=password)
     if user is not None:
@@ -21,7 +28,7 @@ def all_employees(request, username, password):
 def all_employees_just_json(request):
     all_emp = Employees.objects.all().values()[:10]
     all_emp_list = list(all_emp)
-    return JsonResponse(all_emp_list, safe=False)
+    return JsonResponse(all_emp_list[len(all_emp_list) - 1], safe=False)
 
 
 def single_employee(request, username, password, emp_no):
@@ -45,12 +52,15 @@ def post_record(request):
     form = EmployeesForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
-            print(form.cleaned_data)
             Employees.objects.create(**form.cleaned_data)
             form = EmployeesForm()
         else:
             print(form.errors)
     return render(request, 'createrecord.html', {'form': form})
+
+
+def update_record(request, **kwargs):
+    return render(request, 'createrecord.html', {})
 
 
 def get_employee_record(request):
@@ -69,7 +79,6 @@ def delete_employee_record(request, emp_no):
     if emp_no != "" and type(emp_no) is not None:
         instance = Employees.objects.filter(emp_no=emp_no)
         instance.delete()
-        print(emp_no)
     return render(request, 'deleterecord.html', {'emp_no': emp_no})
 
 

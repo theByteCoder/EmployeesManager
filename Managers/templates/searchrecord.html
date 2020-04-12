@@ -56,6 +56,24 @@
   >
     Delete
   </button>
+  <button
+    onclick="updateRecord()"
+    type="button"
+    id="update-button"
+    class="inline"
+    hidden
+  >
+    Update
+  </button>
+  {% else %}
+  <button
+    onclick="updateRecord()"
+    type="button"
+    id="update-button"
+    class="inline"
+  >
+    Create
+  </button>
   {% endif %}
   <!-- </div> -->
   <script>
@@ -113,9 +131,13 @@
         for (var y = 0; y < para.length; y++) {
           var input = para[y].getElementsByTagName("input");
           input[0].removeAttribute("hidden");
+          document.getElementById("update-button").removeAttribute("hidden");
         }
       }
     }
+
+    // update record
+    function updateRecord() {}
   </script>
 </form>
 <br />
@@ -155,23 +177,23 @@
       <th scope="row">{{ each_record.emp_no }}</th>
       <td>
         {{ each_record.first_name }}
-        <p><input type="text" id="first_name" hidden /></p>
+        <p><input type="text" name="first_name" hidden onchange="" /></p>
       </td>
       <td>
         {{ each_record.last_name }}
-        <p><input type="text" id="last_name" hidden /></p>
+        <p><input type="text" name="last_name" hidden /></p>
       </td>
       <td>
         {{ each_record.gender }}
-        <p><input type="text" id="gender" hidden /></p>
+        <p><input type="text" name="gender" hidden /></p>
       </td>
       <td>
         {{ each_record.birth_date }}
-        <p><input type="text" id="birth_date" hidden /></p>
+        <p><input type="text" name="birth_date" hidden /></p>
       </td>
       <td>
         {{ each_record.hire_date }}
-        <p><input type="text" id="hire_date" hidden /></p>
+        <p><input type="text" name="hire_date" hidden /></p>
       </td>
     </tr>
     {% endfor %}
