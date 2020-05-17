@@ -15,33 +15,40 @@ def get_last_employee_number():
     return last_emp_record["emp_no"]
 
 
-def all_employees(request, username, password):
-    user = authenticate(username=username, password=password)
-    if user is not None:
-        all_emp = Employees.objects.all()[:10]
-        return render(request, 'index.html', {'all_emp': all_emp})
-    else:
-        return render(request, 'permissions.html')
+def all_employees(request):
+    # def all_employees(request, username, password):
+    # user = authenticate(username=username, password=password)
+    # if user is not None:
+    all_emp = Employees.objects.all()[:10]
+    return render(request, 'index.html', {'all_emp': all_emp})
+
+
+# else:
+#     return render(request, 'permissions.html')
 
 
 # # return JSON
 def all_employees_just_json(request):
     all_emp = Employees.objects.all().values()[:10]
     all_emp_list = list(all_emp)
+    print(all_emp_list)
     return JsonResponse(all_emp_list[len(all_emp_list) - 1], safe=False)
 
 
-def single_employee(request, username, password, emp_no):
-    user = authenticate(username=username, password=password)
-    if user is not None:
-        all_emp = list(Employees.objects.all().values().filter(emp_no=emp_no))
-        if not (len(all_emp) == 0):
-            return render(request, 'index.html', {'all_emp': all_emp})
-            # return JsonResponse(all_emp_list, safe=False)
-        else:
-            return render(request, 'index.html', {'all_emp': []})
+def single_employee(request, emp_no):
+    # def single_employee(request, username, password, emp_no):
+    # user = authenticate(username=username, password=password)
+    # if user is not None:
+    all_emp = list(Employees.objects.all().values().filter(emp_no=emp_no))
+    if not (len(all_emp) == 0):
+        return render(request, 'index.html', {'all_emp': all_emp})
+        # return JsonResponse(all_emp_list, safe=False)
     else:
-        return render(request, 'permissions.html')
+        return render(request, 'index.html', {'all_emp': []})
+
+
+# else:
+#     return render(request, 'permissions.html')
 
 
 def google_search(request):
@@ -59,8 +66,46 @@ def post_record(request):
     return render(request, 'createrecord.html', {'form': form})
 
 
-def update_record(request, **kwargs):
+def create_record(request, emp_no, birth_date, first_name, last_name, gender, hire_date):
+    import json
+    details = json.loads(info['info'])
+    all_emp = Employees(emp_no=details['emp_no'], birth_date=details['birth_date'], first_name=details['first_name'],
+                        last_name=details['last_name']
+                        , gender=details['gender'], hire_date=details['hire_date'])
+    all_emp.save()
     return render(request, 'createrecord.html', {})
+
+
+def update_record(request, **info):
+    import json
+    details = json.loads(info['info'])
+    print(details)
+    all_emp = Employees(emp_no=details['emp_no'], birth_date=details['birth_date'], first_name=details['first_name'],
+                        last_name=details['last_name']
+                        , gender=details['gender'], hire_date=details['hire_date'])
+    all_emp.save()
+    return render(request, 'editrecord.html', {})
+
+
+# def update_record(request, emp_no, birth_date, first_name, last_name, gender, hire_date):
+#     all_emp = Employees(emp_no=emp_no, birth_date=birth_date, first_name=first_name,
+#                         last_name=last_name
+#                         , gender=gender, hire_date=hire_date)
+#     all_emp.save()
+#     return render(request, 'editrecord.html', {})
+
+# def request_name(request):
+#     if request.method == "POST" and 'search' in request.POST:
+#         get_employee_record(request)
+#     elif request.method == "POST" and 'update' in request.POST:
+#         update_record()
+
+def search_employee_record(request, emp_no):
+    if emp_no == "*":
+        record = list(Employees.objects.all()[:10000])
+    else:
+        record = list(Employees.objects.all().values().filter(emp_no=emp_no))
+    return render(request, 'searchrecord.html', {'record': record})
 
 
 def get_employee_record(request):
@@ -69,7 +114,8 @@ def get_employee_record(request):
     if request.method == "POST":
         emp_no = request.POST.get("emp_no", None)
         if emp_no == "*":
-            record = list(Employees.objects.all()[:100])
+            # record = list(Employees.objects.all()[:100])
+            record = list(Employees.objects.all()[:1000])
         else:
             record = list(Employees.objects.all().values().filter(emp_no=emp_no))
     return render(request, 'searchrecord.html', {'record': record})

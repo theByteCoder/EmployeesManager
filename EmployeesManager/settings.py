@@ -23,8 +23,10 @@ SECRET_KEY = 'p3_jljsafiz3)2)&o61gapyi3qk#h1qa+5$2*)j9w^j=*rb6$e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# DEBUG = False
 
-ALLOWED_HOSTS = ['192.168.0.104', '192.168.0.107', '127.0.0.1', '0.0.0.0']
+ALLOWED_HOSTS = ['192.168.0.104', '192.168.0.105', '192.168.0.106', '192.168.0.107', '192.168.43.40', '127.0.0.1',
+                 '0.0.0.0']
 
 # Application definition
 
@@ -55,7 +57,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'EmployeesManager/templates')
+            os.path.join(BASE_DIR, 'EmployeesManager/templates'),
+            os.path.join(BASE_DIR, 'EmployeeManager/Managers/static')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -117,4 +120,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+# STATIC_ROOT= os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'EmployeeManager/Managers/static')
+# ]

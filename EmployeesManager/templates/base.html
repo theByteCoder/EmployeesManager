@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html5>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -20,32 +20,113 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
+    <!-- google fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Lobster"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
       integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
       crossorigin="anonymous"
     ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-      crossorigin="anonymous"
-    ></script>
+    <script type="text/javascript">
+      function loading() {
+        $("#loading").show();
+        $("#content").hide();
+      }
+    </script>
     <style>
       .inline {
         display: inline-block;
+      }
+      h1,
+      a[href] {
+        font-family: lobster, sans-serif;
+      }
+      html {
+        margin: 2em;
+      }
+      .textbox {
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid #000000;
+        outline: none;
+        box-shadow: none;
+      }
+      button,
+      input {
+        margin: 5px;
+        background: transparent;
+      }
+      .col-cell-text {
+        color: black;
+      }
+      html,
+      head,
+      body {
+        background: url("/static/background.jpg") no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        background-size: cover;
+        -o-background-size: cover;
+      }
+      .navbar-inner {
+        background: transparent;
+      }
+      #loading {
+        width: 60px;
+        height: 60px;
+        display: none;
+        background-image: url("/static/loader.gif");
+        /* cursor: wait; */
       }
     </style>
   </head>
 
   <body>
+    <nav
+      class="navbar bg-transparent navbar-inner navbar-expand-lg navbar-light bg-light static-top mb-5 shadow"
+    >
+      <div class="container">
+        <a
+          class="navbar-brand"
+          href="javascript:window.location.href=window.location.href"
+          ><h1>Welcome to Employee support</h1></a
+        >
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarResponsive"
+          aria-controls="navbarResponsive"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="">Home </a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="">contact </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
     <div class="container">
-      <h2>Welcome to Employee support</h2>
-      {% block content %} {% endblock %}
+      <div id="loading"></div>
+      <div id="content">
+        {% block content %} {% endblock %}
+      </div>
     </div>
   </body>
 </html>

@@ -3,24 +3,32 @@
 <br />
 
 <!-- <form name="emp-search" action="." method="POST" onchange="required()"> -->
-<form name="emp-search" action="." onchange="required()">
+<form autocomplete="off" name="emp-search" action="." onchange="required()">
   {% csrf_token %}
   <!-- <div class="container"> -->
   <!-- Employee Number {{ record.emp_no }} -->
-  Employee Number
   <input
+    class="textbox"
     type="text"
     id="emp_no"
     name="emp_no"
+    placeholder="Enter employee number here"
+    size="27"
     onclick="
     if(document.getElementById('edit-button') != undefined) {
       document.getElementById('edit-button').style.display = 'none';
     };
+    if(document.getElementById('update-button') != undefined) {
+      document.getElementById('update-button').style.display = 'none';
+    };
     if(document.getElementById('delete-button') != undefined) {
       document.getElementById('delete-button').style.display = 'none';
     };
-    if(document.getElementById('employees-table-body') != undefined) {
-      document.getElementById('employees-table-body').style.display = 'none';
+    if(document.getElementById('grid') != undefined) {
+      document.getElementById('grid').style.display = 'none';
+    };
+    if(document.getElementById('create-button') != undefined) {
+      document.getElementById('create-button').removeAttribute('hidden');
     };"
   />
   <input
@@ -28,8 +36,9 @@
     formmethod="post"
     value="Search"
     id="search-button"
-    class="inline"
+    class="inline btn btn-primary"
     disabled="true"
+    onclick="loading();"
   />
   <div class="alert alert-warning inline" id="missing-emp-no" hidden>
     <strong>Warning !</strong> Employee number can not be alpha numeric.
@@ -37,44 +46,108 @@
   <div class="alert alert-success inline" hidden>
     <strong>Success!</strong>
   </div>
-  {% if record|length != 0 %}
   <button
-    onclick="editRecord()"
-    type="button"
-    id="edit-button"
-    class="inline"
-    hidden
-  >
-    Edit
-  </button>
-  <button
-    onclick="window.location.href = '/api/deleteEmployee/emp_no=' + getSelectedEmployee()"
-    type="button"
-    id="delete-button"
-    class="inline"
-    hidden
-  >
-    Delete
-  </button>
-  <button
-    onclick="updateRecord()"
-    type="button"
-    id="update-button"
-    class="inline"
-    hidden
-  >
-    Update
-  </button>
-  {% else %}
-  <button
-    onclick="updateRecord()"
-    type="button"
-    id="update-button"
-    class="inline"
-  >
-    Create
-  </button>
-  {% endif %}
+  onclick="editRecord()"
+  type="button"
+  id="edit-button"
+  class="inline btn btn-primary"
+  hidden
+  disabled
+>
+  Edit
+</button>
+<button
+  onclick="window.location.href = '/api/deleteEmployee/emp_no=' + getSelectedEmployee()"
+  type="button"
+  id="delete-button"
+  class="inline btn btn-danger"
+  hidden
+  disabled
+>
+  Delete
+</button>
+<button
+  onclick="updateSelectedEmployee_detailsList()"
+  type="button"
+  id="update-button"
+  class="inline btn btn-info"
+  hidden
+  disabled
+>
+  Update
+</button>
+<button
+onclick="createRecord()"
+type="button"
+id="create-button"
+class="inline btn btn-primary"
+hidden
+>
+Create
+</button>
+<br />
+<div id="grid" hidden>
+  <h3>Employee List</h3>
+  <br />
+<!-- <button name="refreshdate" id="refreshdate">Refresh</button> -->
+  <table class="table table-hover" id="table">
+    <thead>
+      <!--    <h3>User - <h3>{{request.user}}</h3></h2>-->
+      <tr>
+        <th class="col-cell-text" scope="col">Select</th>
+        <th class="col-cell-text" scope="col">emp_no</th>
+        <th class="col-cell-text" scope="col">first_name</th>
+        <th class="col-cell-text" scope="col">last_name</th>
+        <th class="col-cell-text" scope="col">gender</th>
+        <th class="col-cell-text" scope="col">birth_date</th>
+        <th class="col-cell-text" scope="col">hire_date</th>
+      </tr>
+    </thead>
+    <tbody id="employees-table-body">
+      {% for each_record in record %}
+      <tr {{ each_record.emp_no }}>
+        <td>
+          <input
+            type="radio"
+            name="radio-button"
+            onchange="getSelectedRow().setAttribute('id',
+        'row-button-selected');
+        document.getElementById('search-button').disabled = false;
+        document.getElementById('edit-button').removeAttribute('hidden');
+        document.getElementById('update-button').removeAttribute('hidden');
+        document.getElementById('delete-button').removeAttribute('hidden');
+        document .getElementById('emp_no').setAttribute('value',
+        getSelectedEmployee());"
+            id="radio-button"
+          />
+        </td>
+        <th scope="row" class="col-cell-text">{{ each_record.emp_no }}</th>
+        <td class="col-cell-text" >
+          {{ each_record.first_name }}
+          <p><input type="text" name="first_name" hidden required/></p>
+        </td>
+        <td class="col-cell-text" >
+          {{ each_record.last_name }}
+          <p><input type="text" name="last_name" hidden required/></p>
+        </td>
+        <td class="col-cell-text" >
+          {{ each_record.gender }}
+          <p><input type="text" name="gender" hidden required/></p>
+        </td>
+        <td class="col-cell-text" >
+          {{ each_record.birth_date }}
+          <p><input type="text" name="birth_date" hidden required/></p>
+        </td>
+        <td class="col-cell-text" >
+          {{ each_record.hire_date }}
+          <p><input type="text" name="hire_date" hidden required/></p>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+</form>
   <!-- </div> -->
   <script>
     // get selected row
@@ -84,6 +157,9 @@
       var row_Index = $("input[name=radio-button]:checked")[0];
       var columnElem = row_Index.parentElement;
       var rowEleme = columnElem.parentElement;
+      document.getElementById('edit-button').removeAttribute('disabled');
+      document.getElementById('update-button').removeAttribute('disabled');
+      document.getElementById('delete-button').removeAttribute('disabled');
       return rowEleme;
     }
 
@@ -91,6 +167,25 @@
     function getSelectedEmployee() {
       var emp_no = getSelectedRow().getAttributeNames()[0];
       return emp_no;
+    }
+
+    function allEditFieldsFilled() {
+      let info = {
+        emp_no: getSelectedEmployee(),
+        first_name: getSelectedRow().children[2].children[0].children[0].value,
+        last_name: getSelectedRow().children[3].children[0].children[0].value,
+        gender: getSelectedRow().children[4].children[0].children[0].value,
+        birth_date: getSelectedRow().children[5].children[0].children[0].value,
+        hire_date: getSelectedRow().children[6].children[0].children[0].value,
+      };
+      return info;
+    }
+
+    // get selected employee details
+    function updateSelectedEmployee_detailsList() {
+      window.location.href =
+        "http://" + getHostName() + "/api/updateEmployee/info=" +
+        JSON.stringify(allEditFieldsFilled());
     }
 
     // returns url's hostname and port
@@ -135,68 +230,15 @@
         }
       }
     }
-
-    // update record
-    function updateRecord() {}
   </script>
-</form>
-<br />
-<h3>Employee List</h3>
-<br />
-<!-- <button name="refreshdate" id="refreshdate">Refresh</button> -->
-<table class="table table-hover" id="table">
-  <thead>
-    <!--    <h3>User - <h3>{{request.user}}</h3></h2>-->
-    <tr>
-      <th scope="col">Select</th>
-      <th scope="col">emp_no</th>
-      <th scope="col">first_name</th>
-      <th scope="col">last_name</th>
-      <th scope="col">gender</th>
-      <th scope="col">birth_date</th>
-      <th scope="col">hire_date</th>
-    </tr>
-  </thead>
-  <tbody id="employees-table-body">
-    {% for each_record in record %}
-    <tr {{ each_record.emp_no }}>
-      <td>
-        <input
-          type="radio"
-          name="radio-button"
-          onchange="getSelectedRow().setAttribute('id',
-        'row-button-selected');
-        document.getElementById('search-button').disabled = false;
-        document.getElementById('delete-button').removeAttribute('hidden');
-        document.getElementById('edit-button').removeAttribute('hidden');
-        document .getElementById('emp_no').setAttribute('value',
-        getSelectedEmployee());"
-          id="radio-button"
-        />
-      </td>
-      <th scope="row">{{ each_record.emp_no }}</th>
-      <td>
-        {{ each_record.first_name }}
-        <p><input type="text" name="first_name" hidden onchange="" /></p>
-      </td>
-      <td>
-        {{ each_record.last_name }}
-        <p><input type="text" name="last_name" hidden /></p>
-      </td>
-      <td>
-        {{ each_record.gender }}
-        <p><input type="text" name="gender" hidden /></p>
-      </td>
-      <td>
-        {{ each_record.birth_date }}
-        <p><input type="text" name="birth_date" hidden /></p>
-      </td>
-      <td>
-        {{ each_record.hire_date }}
-        <p><input type="text" name="hire_date" hidden /></p>
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+{% if record|length != 0 %}
+<script type="text/javascript">
+    document.getElementById("grid").removeAttribute('hidden')
+</script>
+{% else %}
+<script type="text/javascript">
+  document.getElementById("create-button").removeAttribute("hidden");
+</script>
+{% endif %}
 {% endblock %}
+</div>

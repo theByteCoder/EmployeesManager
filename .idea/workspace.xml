@@ -43,6 +43,34 @@
       <recent name="$PROJECT_DIR$/Managers/templates" />
     </key>
   </component>
+  <component name="RunManager">
+    <configuration name="Test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="EmployeesManager" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/EmployeesManager" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/EmployeesManager/Test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.Test" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -70,13 +98,29 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
+    <state width="1419" height="205" key="GridCell.Tab.0.bottom" timestamp="1589732733614">
+      <screen x="0" y="23" width="1440" height="823" />
+    </state>
+    <state width="1419" height="205" key="GridCell.Tab.0.bottom/0.23.1440.823@0.23.1440.823" timestamp="1589732733614" />
+    <state width="1419" height="205" key="GridCell.Tab.0.center" timestamp="1589732733612">
+      <screen x="0" y="23" width="1440" height="823" />
+    </state>
+    <state width="1419" height="205" key="GridCell.Tab.0.center/0.23.1440.823@0.23.1440.823" timestamp="1589732733612" />
+    <state width="1419" height="205" key="GridCell.Tab.0.left" timestamp="1589732733609">
+      <screen x="0" y="23" width="1440" height="823" />
+    </state>
+    <state width="1419" height="205" key="GridCell.Tab.0.left/0.23.1440.823@0.23.1440.823" timestamp="1589732733609" />
+    <state width="1419" height="205" key="GridCell.Tab.0.right" timestamp="1589732733613">
+      <screen x="0" y="23" width="1440" height="823" />
+    </state>
+    <state width="1419" height="205" key="GridCell.Tab.0.right/0.23.1440.823@0.23.1440.823" timestamp="1589732733613" />
     <state x="267" y="88" key="SettingsEditor" timestamp="1585855988979">
       <screen x="0" y="23" width="1440" height="823" />
     </state>
     <state x="267" y="88" key="SettingsEditor/0.23.1440.823@0.23.1440.823" timestamp="1585855988979" />
-    <state x="385" y="170" width="670" height="158" key="search.everywhere.popup" timestamp="1586106036899">
+    <state x="385" y="170" width="670" height="158" key="search.everywhere.popup" timestamp="1589311849823">
       <screen x="0" y="23" width="1440" height="823" />
     </state>
-    <state x="385" y="170" width="670" height="158" key="search.everywhere.popup/0.23.1440.823@0.23.1440.823" timestamp="1586106036899" />
+    <state x="385" y="170" width="670" height="158" key="search.everywhere.popup/0.23.1440.823@0.23.1440.823" timestamp="1589311849823" />
   </component>
 </project>
